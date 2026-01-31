@@ -2,7 +2,6 @@
 
 import { useState, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import Masonry from 'react-masonry-css'
 import { portfolioItems } from '@/lib/data'
 import { PortfolioItem as PortfolioItemType } from '@/lib/types'
 import FilterTabs from './FilterTabs'
@@ -20,12 +19,6 @@ export default function Portfolio() {
     activeCategory === 'All'
       ? portfolioItems
       : portfolioItems.filter((item) => item.category === activeCategory)
-
-  const breakpointColumns = {
-    default: 3,
-    1024: 2,
-    640: 1,
-  }
 
   const handleItemClick = (item: PortfolioItemType) => {
     setSelectedItem(item)
@@ -74,11 +67,7 @@ export default function Portfolio() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Masonry
-            breakpointCols={breakpointColumns}
-            className="masonry-grid"
-            columnClassName="masonry-grid-column"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {filteredItems.map((item) => (
                 <PortfolioItem
@@ -88,7 +77,7 @@ export default function Portfolio() {
                 />
               ))}
             </AnimatePresence>
-          </Masonry>
+          </div>
         </motion.div>
 
         {filteredItems.length === 0 && (

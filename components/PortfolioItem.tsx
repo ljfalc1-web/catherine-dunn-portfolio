@@ -18,12 +18,12 @@ export default function PortfolioItem({ item, onClick }: PortfolioItemProps) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
-      className="mb-6 group cursor-pointer"
+      className="group cursor-pointer"
       onClick={onClick}
     >
       <div className="relative overflow-hidden rounded-xl bg-white shadow-sm hover:shadow-lg transition-shadow duration-300">
         {/* Image */}
-        <div className="relative aspect-[3/4] overflow-hidden">
+        <div className="relative aspect-[4/5] overflow-hidden">
           <Image
             src={item.thumbnail}
             alt={item.title}
