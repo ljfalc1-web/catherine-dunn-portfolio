@@ -141,7 +141,7 @@ export default function PortfolioModal({ item, isOpen, onClose }: PortfolioModal
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-charcoal text-cream font-medium rounded-full hover:bg-lavender transition-colors"
                   >
-                    View Live Work
+                    See Here
                     <ExternalLink size={16} />
                   </a>
                 )}
