@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Portfolio Changes</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f0ff 0%, #fff 100%);
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
+    p {
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    button {
+      background: #9b8bb8;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    button:hover {
+      background: #8a7aa7;
+      transform: translateY(-1px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+    }
+    .status.success {
+      display: block;
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .status.error {
+      display: block;
+      background: #ffebee;
+      color: #c62828;
+    }
+    .status.loading {
+      display: block;
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+    .instructions {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #eee;
+      text-align: left;
+    }
+    .instructions h2 {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+    .instructions ol {
+      color: #888;
+      font-size: 13px;
+      padding-left: 20px;
+    }
+    .instructions li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Publish Portfolio</h1>
+    <p>Click the button below after updating the Google Sheet to publish your changes.</p>
+
+    <button onclick="publish()" id="publishBtn">
+      Publish Changes
+    </button>
+
+    <div id="status" class="status"></div>
+
+    <div class="instructions">
+      <h2>How to update your portfolio:</h2>
+      <ol>
+        <li>Upload images to Cloudinary</li>
+        <li>Copy the image URL</li>
+        <li>Add/edit rows in the Google Sheet</li>
+        <li>Click "Publish Changes" above</li>
+        <li>Wait 2-3 minutes for the site to update</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    // IMPORTANT: Replace this URL with your actual Vercel Deploy Hook URL
+    const DEPLOY_HOOK_URL = 'YOUR_VERCEL_DEPLOY_HOOK_URL_HERE';
+
+    async function publish() {
+      const btn = document.getElementById('publishBtn');
+      const status = document.getElementById('status');
+
+      if (DEPLOY_HOOK_URL === 'YOUR_VERCEL_DEPLOY_HOOK_URL_HERE') {
+        status.className = 'status error';
+        status.textContent = 'Deploy hook URL not configured. Please update the DEPLOY_HOOK_URL in this file.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Publishing...';
+      status.className = 'status loading';
+      status.textContent = 'Triggering deployment...';
+
+      try {
+        const response = await fetch(DEPLOY_HOOK_URL, { method: 'POST' });
+
+        if (response.ok) {
+          status.className = 'status success';
+          status.textContent = 'Deployment triggered! Your site will update in 2-3 minutes.';
+        } else {
+          throw new Error('Deployment failed');
+        }
+      } catch (error) {
+        status.className = 'status error';
+        status.textContent = 'Failed to trigger deployment. Please try again.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Publish Changes';
+      }
+    }
+  </script>
+</body>
+</html>

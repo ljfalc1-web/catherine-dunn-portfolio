@@ -2,13 +2,16 @@
 
 import { useState, useRef } from 'react'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
-import { portfolioItems } from '@/lib/data'
 import { PortfolioItem as PortfolioItemType } from '@/lib/types'
 import FilterTabs from './FilterTabs'
 import PortfolioItem from './PortfolioItem'
 import PortfolioModal from './PortfolioModal'
 
-export default function Portfolio() {
+interface PortfolioProps {
+  items: PortfolioItemType[]
+}
+
+export default function Portfolio({ items }: PortfolioProps) {
   const [activeCategory, setActiveCategory] = useState('All')
   const [selectedItem, setSelectedItem] = useState<PortfolioItemType | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -17,8 +20,8 @@ export default function Portfolio() {
 
   const filteredItems =
     activeCategory === 'All'
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.category === activeCategory)
+      ? items
+      : items.filter((item) => item.category === activeCategory)
 
   const handleItemClick = (item: PortfolioItemType) => {
     setSelectedItem(item)
